@@ -1,0 +1,5 @@
+﻿  Dev_C_Config_IxChariot_Single_Pair_Multiple_Streams.c
+c1 : fatal error C1083: Cannot open source file: '..\..\C_IxChariot_Automation_Project_Nathan\C_IxChariot_Automation_Development\Dev_C_Config_IxChariot_Single_Pair_Multiple_Streams.c': No such file or directory
+  Dev_C_Text_File_Result_Data_IxChariot.c
+c1 : fatal error C1083: Cannot open source file: '..\..\C_IxChariot_Automation_Project_Nathan\C_IxChariot_Automation_Development\Dev_C_Text_File_Result_Data_IxChariot.c': No such file or directory
+  Generating Code...
