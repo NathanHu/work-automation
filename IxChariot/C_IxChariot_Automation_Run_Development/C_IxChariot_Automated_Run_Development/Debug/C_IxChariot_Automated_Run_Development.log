@@ -1,17 +1,2 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (C_IxChariot_Automated_Run_Development.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Dev_C_Config_IxChariot_Single_Pair_Multiple_Streams.c
-  Dev_C_Text_File_Result_Data_IxChariot.c
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(31): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\time.h(506): note: see declaration of 'localtime'
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(39): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(66): warning C4477: 'snprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'CHR_STRING *'
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(74): warning C4477: 'snprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'CHR_STRING *'
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(91): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(136): warning C4047: 'function': 'CHR_STRING *' differs in levels of indirection from 'CHR_STRING'
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(136): warning C4024: 'get_file_name': different types for formal and actual parameter 2
-c:\users\nathan\source\repos\work-automation\ixchariot\c_ixchariot_automation_run_development\dev_c_text_file_result_data_ixchariot.c(148): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
-  Generating Code...
   C_IxChariot_Automated_Run_Development.vcxproj -> C:\Users\Nathan\source\repos\work-automation\IxChariot\C_IxChariot_Automation_Run_Development\Debug\C_IxChariot_Automation_Result_Reporting.exe

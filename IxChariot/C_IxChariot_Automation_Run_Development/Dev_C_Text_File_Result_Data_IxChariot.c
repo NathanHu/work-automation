@@ -93,7 +93,7 @@ void write_to_file( FILE *file_pointer, char *to_file_name, char *data_input ) {
 	printf("\n");
 
 	fprintf(file_pointer, "%s\n", data_input);						// Write data input to results file
-	printf("Writing to the results file was successful!\n");		// Test that writing to the file step was completed
+	//printf("Writing to the results file was successful!\n");		// Test that writing to the file step was completed
 	fclose(file_pointer);
 
 }	/* ********* End of FILE WRITE FUNCTION ********* */
@@ -115,14 +115,41 @@ char main() {
 	char test_input[] = "Hello World!";
 
 
-	/* ------------------------ Initial Setup ------------------------
-	 * NECESSARY VARIABLES FROM CONFIG FILE
+	/* --- Initial Setup --- 
 	 * For Code: CHR_STRING data_path, char wifi_channel[]
 	 * For description: CHR_STRING ap_name, char location[], char mesh[], ENDPOINTS
-	 * Made as a function that can be implemented in other scripts
 	 */
 	char *test_name = malloc(200);
 	char test_timestamp[30];
+
+	/* Used for the results introduction */
+	const char *intro_format[11] =
+	{
+		test_type,
+		test_equipment,
+		ap_name,
+		test_timestamp,
+		space,
+		test_run_duration + '0',
+		between_pair_delay + '0',
+		iteration_delay + '0',
+		space,
+		wifi_channel,
+		text
+	};
+
+	const char *intro_id[9] =
+	{
+		"TEST TYPE: ",
+		"TEST EQUIPMENT: ",
+		"DEVICE UNDER TEST: ",
+		"SCRIPT START TIME: ",
+		"PAIR TEST DURATION: ",
+		"PAIR DELAY: ",
+		"ITERATION DELAY: ",
+		"WIFI CHANNEL: ",
+		"COMMENT: "
+	};
 
 
     /* ------------------------ Step 1 ------------------------
@@ -146,12 +173,34 @@ char main() {
 	/* Create the file */
 	FILE *test_pointer;
 	test_pointer = fopen(test_name, "a+");
-	fclose(test_pointer);
+
 
 	/* ------------------------ Step 3 ------------------------
 	 * Initialize the .txt with introductory information
 	 */
-	write_to_file(test_pointer, test_name, test_input);
+	char *intro_ptr, *id_ptr;
+	for ( intro_ptr = &intro_format; intro_ptr != NULL; intro_ptr++ ) {
+		/* Iterate*/
+		if (intro_format != space) {
+			
+			for ( id_ptr = &intro_id; id_ptr != NULL; id_ptr++ ) {
+				
+				fprintf(test_pointer, "%s%s\n", id_ptr, intro_ptr);
+
+			}
+		}
+
+		else {
+
+			fprintf(test_pointer, "%s\n", intro_ptr);
+		
+		}
+
+	};
+	//write_to_file(test_pointer, test_name, test_input); // TEST
+	printf("Result file created!\n");
+	printf("\n");
+	fclose(test_pointer);
 
 
 	/* ------------------------ Step 4 ------------------------

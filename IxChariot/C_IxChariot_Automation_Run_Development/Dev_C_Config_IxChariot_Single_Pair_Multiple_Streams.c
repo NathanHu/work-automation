@@ -9,9 +9,11 @@
 #include "chrapi.h"
 
 
-/* ****** AP NAME ****** */
+/* ****** Test Information ****** */
+static char test_type[]			= "Single Endpoint Pair Murliple Streams Test";
+static char test_equipment[]	= "Ixia Chariot";
 static CHR_STRING ap_name		= "Device Under Test Name";
-
+static char text[]				= "TCP P2P Pair Multiple Stream";
 
 /* ****** Test and Results Reporting ****** */
 //static CHR_STRING data_path = "C:/Users/attlabs/Desktop/Data_Log"; // Path to store test results in ".txt" format
@@ -46,7 +48,6 @@ static CHR_COUNT fix_run_time		= 1;			// 1 - Run test at fixed duration, 0 - ful
 
 static CHR_COUNT test_run_duration	= 75;
 static CHR_COUNT between_pair_delay = 30;
-
 static CHR_COUNT iteration_delay	= 15; 			// Delay between iterations (sec)
 
 
@@ -86,3 +87,9 @@ static CHR_STRING e2Addrs[] = {
 
 //static CHR_STRING e1 = "192.168.1.x";
 //static CHR_STRING e2 = "192.168.1.x";
+
+/* ****** Utiliy/Formatting ****** */
+static char divider[]	= "------------------------------------";
+static char special[]	= "************************";
+static char space[]		= "";
+
