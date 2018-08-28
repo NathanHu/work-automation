@@ -134,8 +134,10 @@ char main() {
 
 	get_file_name( test_name, data_path, test_description, test_timestamp, location, wifi_channel );
 	if (test_name == NULL) {
+
 		perror("Unable to create filename. Check test variables");
 		exit(EXIT_FAILURE);
+
 	};
 	
 
@@ -159,7 +161,7 @@ char main() {
 	fprintf(test_pointer, "TEST EQUIPMENT:       %s\n", test_equipment);
 	fprintf(test_pointer, "DEVICE UNDER TEST:    %s\n", ap_name);
 	fprintf(test_pointer, "SCRIPT START TIME:    %s\n", test_timestamp);
-	fprintf(test_pointer, "WI-FI CHANNEL :        %s\n", wifi_channel);
+	fprintf(test_pointer, "WI-FI CHANNEL :       %s\n", wifi_channel);
 	fprintf(test_pointer, "\n");	// Space
 
 	fprintf(test_pointer, "PAIR TEST DURATION:   %d\n", test_run_duration);

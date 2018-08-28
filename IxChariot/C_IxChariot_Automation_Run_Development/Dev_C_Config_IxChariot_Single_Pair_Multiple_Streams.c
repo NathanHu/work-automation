@@ -15,11 +15,13 @@ static char test_equipment[]	= "Ixia Chariot";
 static CHR_STRING ap_name		= "Device Under Test Name";
 static char text[]				= "TCP P2P Pair Multiple Stream";
 
+
 /* ****** Test and Results Reporting ****** */
 //static CHR_STRING data_path = "C:/Users/attlabs/Desktop/Data_Log"; // Path to store test results in ".txt" format
 static CHR_STRING data_path		= "C:/Users/Nathan/Desktop/Automation/Testing";
 
 static char test_description[]	= "IxChariot_SingleMultiStrmPairTest";
+
 
 /* ****** TEST SETUP ****** */
 static CHR_STRING script	=
@@ -27,8 +29,7 @@ static CHR_STRING script	=
 static CHR_STRING testfile	=
 "c:/Program Files/Ixia/IxChariot/Test_Configs/[subst SinglePairTest_[subst $timestamp]_[subst $x]_[subst $iteration]].tst";
 
-static int test_iterations = 5;					// Specify number of iterations the test will run
-												// The variables below are for reporting
+static int test_iterations		= 5;			// Specify number of iterations the test will run
 static char wifi_channel[]		= "149";		// Wi-Fi channel of DUT
 static int int_channel			= 157;
 
@@ -72,21 +73,26 @@ static CHR_COUNT pairCount		= 4;
 static CHR_COUNT streamNum[]	= {3, 5, 7};		// Desired number of stream pairs for each test
 
 static CHR_STRING e1Addrs[] = {						// Need an equal amount of endpoints in each array
-    IxChariot_Console,
+    
+	IxChariot_Console,
     IxChariot_Console,
     IxChariot_Console,
     IxChariot_Console
+
 };
 
 static CHR_STRING e2Addrs[] = {
-    QTN_RDK,
+    
+	QTN_RDK,
     MacBook_Pro,
     Galaxy_S5,
     iPad_Air
+
 };
 
 //static CHR_STRING e1 = "192.168.1.x";
 //static CHR_STRING e2 = "192.168.1.x";
+
 
 /* ****** Utiliy/Formatting ****** */
 static char divider[]	= "------------------------------------------------------------------";
