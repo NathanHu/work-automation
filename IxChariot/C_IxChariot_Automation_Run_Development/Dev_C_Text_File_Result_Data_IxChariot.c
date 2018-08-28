@@ -60,7 +60,7 @@ void get_test_information() {
  * [data_path]/[description]_[timestamp]_[location]_[wifi_channel].txt
  * Made as a function that can be implemented in other scripts
  */
-void get_file_name( char *name_var, char const *data_path, char const *description, char const *timestamp, char const *location, char const *wifi_channel ) {
+void get_file_name( char *name_var, CHR_STRING *data_path, char const *description, char const *timestamp, char const *location, char const *wifi_channel ) {
 
 	/* Determine buffer size (characters) of the final string */
 	size_t name_size = snprintf(NULL, 0, "%s/%s_%s_%s_%s.txt", data_path, description, timestamp, location, wifi_channel);
@@ -105,21 +105,24 @@ char main() {
     /* ------------------------ Step 0 ------------------------
      * TESTING SECTION
 	 */
-	char test_data_path[]		= "C:/Users/Nathan/Desktop/Automation/Testing";
-	//char test_timestamp[]	= "date-07-26-1990-time-0900";
-	char test_timestamp[30];
-	char test_wifi_channel[]	= "149";
-	char test_description[]	= "IxChariot_SingleMultiStrmPairTest";
-	char test_location[]		= "In Room";
-	char *test_name = malloc(200);
+	//char test_data_path[]		= "C:/Users/Nathan/Desktop/Automation/Testing";
+	////char test_timestamp[]	= "date-07-26-1990-time-0900";
+	//char test_timestamp[30];
+	//char test_wifi_channel[]	= "149";
+	//char test_description[]	= "IxChariot_SingleMultiStrmPairTest";
+	//char test_location[]		= "In Room";
+	//char *test_name = malloc(200);
 	char test_input[] = "Hello World!";
 
 
 	/* ------------------------ Initial Setup ------------------------
 	 * NECESSARY VARIABLES FROM CONFIG FILE
-	 * 
+	 * For Code: CHR_STRING data_path, char wifi_channel[]
+	 * For description: CHR_STRING ap_name, char location[], char mesh[], ENDPOINTS
 	 * Made as a function that can be implemented in other scripts
 	 */
+	char *test_name = malloc(200);
+	char test_timestamp[30];
 
 
     /* ------------------------ Step 1 ------------------------
@@ -130,7 +133,7 @@ char main() {
 	get_current_time(test_timestamp);
 	printf("The current timestamp is: %s\n", test_timestamp);
 
-	get_file_name( test_name, test_data_path, test_description, test_timestamp, test_location, test_wifi_channel );
+	get_file_name( test_name, data_path, test_description, test_timestamp, location, wifi_channel );
 	
 
 	/* ------------------------ Step 2 ------------------------
