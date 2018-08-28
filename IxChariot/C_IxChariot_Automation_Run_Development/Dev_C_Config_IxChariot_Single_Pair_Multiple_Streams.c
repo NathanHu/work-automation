@@ -89,7 +89,7 @@ static CHR_STRING e2Addrs[] = {
 //static CHR_STRING e2 = "192.168.1.x";
 
 /* ****** Utiliy/Formatting ****** */
-static char divider[]	= "------------------------------------";
+static char divider[]	= "------------------------------------------------------------------";
 static char special[]	= "************************";
 static char space[]		= "";
 
