@@ -8,9 +8,13 @@
 
 #include "chrapi.h"
 
+/* ****** Previously Tested Builds ****** 
+ * Use to log old tests if needed
+
+ */
 
 /* ****** Test Information ****** */
-static char test_type[]			= "Single Endpoint Pair Murliple Streams Test";
+static char test_type[]			= "Single Endpoint Pair Multiple Streams Test";
 static char test_equipment[]	= "Ixia Chariot";
 static CHR_STRING ap_name		= "Device Under Test Name";
 static char text[]				= "TCP P2P Pair Multiple Stream";
@@ -26,7 +30,7 @@ static char test_description[]	= "IxChariot_SingleMultiStrmPairTest";
 /* ****** TEST SETUP ****** */
 static CHR_STRING script	=
 "C:\\Program Files (x86)\\Ixia\\IxChariot\\Scripts\\High_Performance_Throughput.scr";
-static CHR_STRING testfile	=
+static CHR_STRING testFile	=
 "c:/Program Files/Ixia/IxChariot/Test_Configs/[subst SinglePairTest_[subst $timestamp]_[subst $x]_[subst $iteration]].tst";
 
 static int test_iterations		= 5;			// Specify number of iterations the test will run
@@ -43,7 +47,7 @@ static char mesh[]				= "No Mesh";
 
 
 /* ****** Test Timing ****** */
-static CHR_COUNT max_wait			= 120;			// 2 minutes in seconds
+static CHR_COUNT maxWait			= 120;			// 2 minutes in seconds
 static CHR_COUNT timeout			= 5;			// Periodic 5 second check
 static CHR_COUNT fix_run_time		= 1;			// 1 - Run test at fixed duration, 0 - full run
 
@@ -52,15 +56,29 @@ static CHR_COUNT between_pair_delay = 30;
 static CHR_COUNT iteration_delay	= 15; 			// Delay between iterations (sec)
 
 
-/* ****** Clients/Endpoints ****** */
-// Insert device IP address in ""
-static char IxChariot_Console[] = "192.168.1.60";	// Endpoint 1
+/* ****** Clients/Endpoints ******
+ *Insert device IP address in "" 
+ */
+/* Console endpoint 1 */
+static char IxChariot_Console[]		= "192.168.1.60";
 
-static char QTN_RDK[]			= "192.168.1.60";
-static char MacBook_Pro[]		= "192.168.1.60";
-static char Galaxy_S5[]			= "192.168.1.60";
-static char iPad_Air[]			= "192.168.1.60";
+/* Client endpoint(s) 2 */
+static char QTN_RDK[]				= "192.168.1.60";
+static char MacBook_Pro[]			= "192.168.1.60";
+static char Galaxy_S5[]				= "192.168.1.60";
+static char iPad_Air[]				= "192.168.1.60";
 
+/* Client abreviation for reporting 
+ * Keep in same order as e2Addrs
+ */
+static CHR_STRING client_id[] = {
+
+	"RDK",
+	"MBP",
+	"GS5",
+	"iPad"
+
+};
 
 /* ****** Endpoint Pair(s) ****** */
 static CHR_PROTOCOL protocols[] = {					// Protocol API
@@ -98,4 +116,5 @@ static CHR_STRING e2Addrs[] = {
 static char divider[]	= "------------------------------------------------------------------";
 static char special[]	= "************************";
 static char space[]		= "";
-
+static char *units[3]	= { "kbps", "Mbps", "Gbps" };
+static char row_id[]	= "#Streams-ID-Loc-Ch";

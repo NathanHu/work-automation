@@ -22,14 +22,18 @@
 #include <time.h>
 #include <math.h>
 
-#include "chrapi.h" // IxChariot Header/API
-#include "Dev_C_Config_IxChariot_Single_Pair_Multiple_Streams.c" // Test Config file
+/* Automation headers and includes */
+#include "chrapi.h"													// IxChariot Header/API
+#include "Dev_C_Config_IxChariot_Single_Pair_Multiple_Streams.c"	// Test Config file
 
 /* Local function to print information about errors */
 static void show_error(
+
     CHR_HANDLE handle,
     CHR_API_RC code,
-    CHR_STRING where);
+    CHR_STRING where
+
+);
 
 
 /* ************************ MAIN PROGRAM ************************ */
@@ -38,155 +42,159 @@ void main(){
     CHR_TEST_HANDLE test;
     CHR_PAIR_HANDLE pair;
 
-    char      errorInfo[CHR_MAX_ERROR_INFO];
-    CHR_LENGTH errorLen;
+    char		errorInfo[CHR_MAX_ERROR_INFO];
+    CHR_LENGTH	errorLen;
 
-        CHR_COUNT index;
+    CHR_COUNT	index;		// Pair Index
 
     CHR_BOOLEAN isStopped;
     CHR_COUNT   timer = 0;
 
-    CHR_API_RC rc;
+    CHR_API_RC	rc;
 
 
     /* ------------------------ Step 1 ------------------------
      * Initialize the Chariot API
      */
-    rc = CHR_api_initialize(CHR_DETAIL_LEVEL_ALL, errorInfo,
-                            CHR_MAX_ERROR_INFO, &errorLen);
-    if (rc != CHR_OK) {
+    rc = CHR_api_initialize( CHR_DETAIL_LEVEL_ALL, errorInfo,
+                             CHR_MAX_ERROR_INFO, &errorLen );
 
-        /*
-         * Because initialization failed, we can't
-         * ask the API for the message for this
-         * return code so we can't call our
-         * show_error() function. Instead, we'll
-         * print what we do know before exiting.
-         */
+	/* *** Error handling variable CHR_OK ***
+	 * Checked frequently at almost every step
+	 * Exit upon failure
+	 */
+	if (rc != CHR_OK) {
+
         printf("Initialization failed: rc = %d\n", rc);
         printf("Extended error info:\n%s\n", errorInfo);
-        exit(255);
-    }
+        exit(EXIT_FAILURE);
+    
+	}
 
 
     /* ------------------------ Step 2 ------------------------
      * Create new test
      */
-    printf("Create the test...\n");
+    printf("Creating the test...\n");
     rc = CHR_test_new(&test);
     if (rc != CHR_OK) {
        show_error((CHR_HANDLE)NULL, rc, "test_new");
     }
 
-    /* Set the test filename for saving later */
+    /* Set the test filename variable for saving later */
     rc = CHR_test_set_filename(test, testFile, strlen(testFile));
     if (rc != CHR_OK) {
         show_error(test, rc, "test_set_filename");
     }
 
-    // ***** CODE RESULTS .txt GOING TO &data_path *****
+    /* ***** TEST ITERATION LOOP ***** */
+	for (int iterator = 1; iterator <= test_iterations; iterator++) {
+		
+		printf("%s ITERATION  %d  %s", special, iterator, special);	// Indicate new iteration
+		fprintf(test_pointer, "%s ITERATION  %d  %s", special, iterator, special);
+
+		/* ------------------------ Step 3 ------------------------
+		 * Define and create the endpoint pairs
+		 *
+		 * Modified to run each pair in sequence. A single iteration is completed
+		 * after all pairs have been run for the specified number of times
+		 */
+		for (index = 0; index < pairCount; index++) {
+
+			char comment[CHR_MAX_PAIR_COMMENT];
+
+			/* Create a pair */
+			printf("Creating the endpoint pair...\n");
+			rc = CHR_pair_new(&pair);
+			if (rc != CHR_OK) {
+				show_error((CHR_HANDLE)NULL, rc, "pair_new");
+			}
+
+			/* Set the pair attributes from config file */
+			printf("Set pair attributes...\n");
+			sprintf(comment, "Pair %d", index + 1);
+
+			rc = CHR_pair_set_comment(pair,
+				comment,
+				strlen(comment));
+			if (rc != CHR_OK) {
+				show_error(pair, rc, "pair_set_comment");
+			}
+
+			rc = CHR_pair_set_e1_addr(pair,
+				e1Addrs[index],
+				strlen(e1Addrs[index]));
+			if (rc != CHR_OK) {
+				show_error(pair, rc, "pair_set_e1_addr");
+			}
+
+			rc = CHR_pair_set_e2_addr(pair,
+				e2Addrs[index],
+				strlen(e2Addrs[index]));
+			if (rc != CHR_OK) {
+				show_error(pair, rc, "pair_set_e2_addr");
+			}
+
+			rc = CHR_pair_set_protocol(pair, protocols[0]);     // Indicate pair protocol from config
+			if (rc != CHR_OK) {
+				show_error(pair, rc, "pair_set_protocol");
+			}
+
+			rc = CHR_pair_use_script_filename(pair,             // Script from config
+				script,
+				strlen(script));
+			if (rc != CHR_OK) {
+				show_error(pair, rc, "pair_use_script_filename");
+			}
+
+			/* Add the pair to the test
+			 *
+			 * Modify for additional string pairs
+			 */
+			rc = CHR_test_add_pair(test, pair);
+			if (rc != CHR_OK) {
+				show_error(test, rc, "test_add_pair");
+			}
 
 
-    /* ------------------------ Step 3 ------------------------
-     * Define and create the endpoint pairs
-     */
-    for (index = 0; index < pairCount; index++) {
+			/* ------------------------ Step 4 ------------------------
+			 * RUN THE TEST!
+			 */
+			printf("Running the test...\n");
+			rc = CHR_test_start(test);
+			if (rc != CHR_OK) {
+				show_error(test, rc, "start_ test");
+			}
 
-        char comment[CHR_MAX_PAIR_COMMENT];
-
-        /* Create a pair */
-        printf("Creating the endpoint pair...\n");
-        rc = CHR_pair_new(&pair);
-        if (rc != CHR_OK) {
-            show_error((CHR_HANDLE)NULL, rc, "pair_new");
-        }
-
-        /* Set the pair attributes from our lists */
-        printf("Set pair attributes...\n");
-        sprintf(comment, "Pair %d", index+1);
-        rc = CHR_pair_set_comment(pair,
-                                  comment,
-                           strlen(comment));
-        if (rc != CHR_OK) {
-            show_error(pair, rc, "pair_set_comment");
-        }
-        rc = CHR_pair_set_e1_addr(pair,
-                                  e1Addrs[index],
-                           strlen(e1Addrs[index]));
-        if (rc != CHR_OK) {
-            show_error(pair, rc, "pair_set_e1_addr");
-        }
-        rc = CHR_pair_set_e2_addr(pair,
-                                  e2Addrs[index],
-                           strlen(e2Addrs[index]));
-        if (rc != CHR_OK) {
-            show_error(pair, rc, "pair_set_e2_addr");
-        }
-        rc = CHR_pair_set_protocol(pair, protocols[0]);     // Indicate pair protocol from config
-        if (rc != CHR_OK) {
-            show_error(pair, rc, "pair_set_protocol");
-        }
-        rc = CHR_pair_use_script_filename(pair,             // Script from config
-                                          script,
-                                   strlen(script);
-        if (rc != CHR_OK) {
-            show_error(pair, rc, "pair_use_script_filename");
-        }
-
-        /* Add the pair to the test */
-        rc = CHR_test_add_pair(test, pair);
-        if (rc != CHR_OK) {
-            show_error(test, rc, "test_add_pair");
-        }
-    }
-
-
-    /* ------------------------ Step 4 ------------------------
-     * RUN THE TEST!
-     */
-
-    /* Step 4.1 ITERATION IMPLEMENTATION */
-    for (int iteration = 1; iteration <= test_iterations; iteration++) {
-
-        printf("Beginning iteration (%d)...\n", iteration);
-        printf("\n");
-
-        /* Step 4.2 Run */
-        printf("Running the test...\n");
-        rc = CHR_test_start(test);
-        if (rc != CHR_OK) {
-            show_error(test, rc, "start_ test");
-        }
-
-        /*
-         * Wait for the test to stop.
-         * Duration is  test_run_duration + between_pair_delay
-         *
-         * We'll check in a loop here every 5 seconds
-         * then call it an error after two minutes if
-         * the test is still not stopped.
-         */
-        printf("Wait for the test to stop...\n");
-        isStopped = CHR_FALSE;
-        timer = 0;
-        while (!isStopped && timer < maxWait) {
-            rc = CHR_test_query_stop(test, timeout);
-            if (rc == CHR_OK) {
-                isStopped = CHR_TRUE;
-            }
-            else if (rc == CHR_TIMED_OUT) {
-                timer += timeout;
-                printf("Waiting for test to stop... (%d)\n", timer);
-            }
-            else {
-                show_error(test, rc, "test_query_stop");
-            }
-        }
-        if (!isStopped) {
-            show_error(test, CHR_TIMED_OUT, "test_query_stop");
-        }
-    }
-
+			/*
+				* Wait for the test to stop.
+				* Duration is  test_run_duration + between_pair_delay
+				*
+				* We'll check in a loop here every 5 seconds
+				* then call it an error after two minutes if
+				* the test is still not stopped.
+				*/
+			printf("Wait for the test to stop...\n");
+			isStopped = CHR_FALSE;
+			timer = 0;
+			while (!isStopped && timer < maxWait) {
+				rc = CHR_test_query_stop(test, timeout);
+				if (rc == CHR_OK) {
+					isStopped = CHR_TRUE;
+				}
+				else if (rc == CHR_TIMED_OUT) {
+					timer += timeout;
+					printf("Waiting for test to stop... (%d)\n", timer);
+				}
+				else {
+					show_error(test, rc, "test_query_stop");
+				}
+			}
+			if (!isStopped) {
+				show_error(test, CHR_TIMED_OUT, "test_query_stop");
+			}
+		}	/* End of one pair test */
+	}	/* End of one full test iteration */
 
     /* ------------------------ Step 5 ------------------------
      * Save the test

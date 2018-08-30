@@ -26,5 +26,8 @@
     <ClCompile Include="..\Dev_C_Text_File_Result_Data_IxChariot.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Dev_C_CSV_File_Result_Data_IxChariot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
