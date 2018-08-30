@@ -1,0 +1,9 @@
+TEST TYPE, Single Endpoint Pair Multiple Streams Test
+TEST EQUIPMENT, DUT, CHANNEL
+Ixia Chariot, Device Under Test Name, 149
+RUN DURATION (sec), # ITERATIONS
+75, 5
+
+Client Endpoint, Run 1, Run 2, Run 3, Run 4, Run 5, Avg Throughput
+#Streams-ID-Loc-Ch, Mbps, Mbps, Mbps, Mbps, Mbps, Mbps
+7-RDK-In Room-149, 123.450, 135.430, 154.630, 121.110, 126.510, 106.924

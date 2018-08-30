@@ -1,0 +1,26 @@
+TEST TYPE:            Single Endpoint Pair Multiple Streams Test
+TEST EQUIPMENT:       Ixia Chariot
+DEVICE UNDER TEST:    Device Under Test Name
+SCRIPT START TIME:    Date-08-30-2018_Time-14-08PM
+WI-FI CHANNEL :       149
+
+PAIR TEST DURATION:   75
+PAIR DELAY:           30
+ITERATION DELAY:      15
+NUMBER OF ITERATIONS: 5
+
+COMMENT: TCP P2P Pair Multiple Stream
+------------------------------------------------------------------
+TEST TYPE:            Single Endpoint Pair Multiple Streams Test
+TEST EQUIPMENT:       Ixia Chariot
+DEVICE UNDER TEST:    Device Under Test Name
+SCRIPT START TIME:    Date-08-30-2018_Time-14-08PM
+WI-FI CHANNEL :       149
+
+PAIR TEST DURATION:   75
+PAIR DELAY:           30
+ITERATION DELAY:      15
+NUMBER OF ITERATIONS: 5
+
+COMMENT: TCP P2P Pair Multiple Stream
+------------------------------------------------------------------
