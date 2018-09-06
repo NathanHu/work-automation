@@ -20,7 +20,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\1_Dev_C_IxChariot_Test_Single_Pair_Multi_Streams.c">
+    <ClCompile Include="..\Dev_Full_Test_Pair-Multi-Streams_txt+csv_C_IxChariot.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Dev_C_Config_IxChariot_Single_Pair_Multiple_Streams.c">

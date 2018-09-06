@@ -12,6 +12,9 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+
+/* Macro for variable arguments */
+#include <stdarg.h>
 /* For directories */
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -44,63 +47,65 @@ void get_current_time( char *time_var ) {
 
 
 
+/* ********* (2) DETERMINE THE FILE NAME FUNCTION *********
+ *
+ * [data_path]/[description]_[timestamp]_[location]_[wifi_channel].txt
+ * Made as a function that can be implemented in other scripts
+ */
+void get_file_name( char *name_var, char *csv, char *txt, CHR_STRING *data_path, char *folder, 
+	char const *description, char const *timestamp, char const *location, char const *wifi_channel ) 
+{
+
+	/* Determine buffer size (characters) of the final string */
+	size_t name_size = snprintf(NULL, 0, "%s/%s/%s_%s_%s_%s", data_path, folder, description, timestamp, location, wifi_channel);
+	int size_buffer = name_size + 1;
+	char *file_buffer = malloc(size_buffer);					// Allocate memory for the file name
+
+	/* Combine information strings with snprint() */
+	//snprintf(file_name, size_buffer, "%s/%s/%s_%s_%s_%s.txt", data_path, folder, description, timestamp, location, wifi_channel);
+	snprintf(file_buffer, size_buffer, "%s/%s/", data_path, folder);
+	/* Create directory if it does not exist */
+	int check_directoy = mkdir(file_buffer, 0777);
+	snprintf(file_buffer, size_buffer, "%s/%s/%s_%s_%s_%s", data_path, folder, description, timestamp, location, wifi_channel);
+
+	memcpy(name_var, file_buffer, size_buffer);					// Copy full file name to the name variable
+	sprintf(csv, "%s.csv", file_buffer);
+	sprintf(txt, "%s.txt", file_buffer);
+
+	free(file_buffer);											// Clear the local file_name buffer
+
+}	/* ********* End of FILE NAME FUNCTION ********* */
+
+
 
 /* ********* (2.1) DETERMINE THE TXT NAME FUNCTION *********
  *
  * [data_path]/[description]_[timestamp]_[location]_[wifi_channel].txt
  * Made as a function that can be implemented in other scripts
  */
-void get_txt_name( char *name_var, CHR_STRING *data_path, char *folder, char const *description, char const *timestamp, char const *location, char const *wifi_channel ) {
+void get_file_name( char *name_var, char *csv, char *txt, CHR_STRING *data_path, char *folder,
+	char const *description, char const *timestamp, char const *location, char const *wifi_channel )
+{
 
 	/* Determine buffer size (characters) of the final string */
-	size_t name_size = snprintf(NULL, 0, "%s/%s/%s_%s_%s_%s.txt", data_path, folder, description, timestamp, location, wifi_channel);
+	size_t name_size = snprintf(NULL, 0, "%s/%s/%s_%s_%s_%s", data_path, folder, description, timestamp, location, wifi_channel);
 	int size_buffer = name_size + 1;
-	char *file_name = malloc(size_buffer);						// Allocate memory for the file name
-
-	/* Reallocate the file name array in the main code */
-	realloc(name_var, size_buffer);
+	char *file_buffer = malloc(size_buffer);					// Allocate memory for the file name
 
 	/* Combine information strings with snprint() */
 	//snprintf(file_name, size_buffer, "%s/%s/%s_%s_%s_%s.txt", data_path, folder, description, timestamp, location, wifi_channel);
-	snprintf(file_name, size_buffer, "%s/%s/", data_path, folder);
+	snprintf(file_buffer, size_buffer, "%s/%s/", data_path, folder);
 	/* Create directory if it does not exist */
-	int check_directoy = mkdir(file_name, 0777);
-	snprintf(file_name, size_buffer, "%s/%s/%s_%s_%s_%s.txt", data_path, folder, description, timestamp, location, wifi_channel);
-	
-	memcpy(name_var, file_name, size_buffer);					// Copy full file name to the name variable
-	free(file_name);											// Clear the local file_name buffer
+	int check_directoy = mkdir(file_buffer, 0777);
+	snprintf(file_buffer, size_buffer, "%s/%s/%s_%s_%s_%s", data_path, folder, description, timestamp, location, wifi_channel);
+
+	memcpy(name_var, file_buffer, size_buffer);					// Copy full file name to the name variable
+	sprintf(csv, "%s.csv", file_buffer);
+	sprintf(txt, "%s.txt", file_buffer);
+
+	free(file_buffer);											// Clear the local file_name buffer
 
 }	/* ********* End of FILE NAME FUNCTION ********* */
-
-
-
-
-/* ********* (2.2) DETERMINE THE CSV NAME FUNCTION *********
- *
- * [data_path]/[description]_[timestamp]_[location]_[wifi_channel].txt
- * Made as a function that can be implemented in other scripts
- */
-void get_csv_name( char *name_var, CHR_STRING *data_path, char *folder, char const *description, char const *timestamp, char const *location, char const *wifi_channel ) {
-
-	/* Determine buffer size (characters) of the final string */
-	size_t name_size = snprintf(NULL, 0, "%s/%s/%s_%s_%s_%s.csv", data_path, folder, description, timestamp, location, wifi_channel);
-	int size_buffer = name_size + 1;
-	char *file_name = malloc(size_buffer);						// Allocate memory for the file name
-
-	/* Reallocate the file name array in the main code */
-	realloc(name_var, size_buffer);
-
-	/* Combine information strings with snprint() */
-	snprintf(file_name, size_buffer, "%s/%s/", data_path, folder);
-	/* Create directory if it does not exist */
-	int check_directory = mkdir(file_name, 0777);
-	snprintf(file_name, size_buffer, "%s/%s/%s_%s_%s_%s.csv", data_path, folder, description, timestamp, location, wifi_channel);
-
-	memcpy(name_var, file_name, size_buffer);					// Copy full file name to the name variable
-	free(file_name);											// Clear the local file_name buffer
-
-}	/* ********* End of FILE NAME FUNCTION ********* */
-
 
 
 
@@ -121,7 +126,6 @@ void write_to_file( FILE *file_pointer, char *to_file_name, char *data_input ) {
 	fclose(file_pointer);
 
 }	/* ********* End of FILE WRITE FUNCTION ********* */
-
 
 
 
@@ -159,7 +163,7 @@ int main() {
 	//char *test_name = malloc(200);
 	//char test_input[] = "Hello World!";
 	//char test_head[] = "MBP-L19-149";
-	double test_tx[5] = { 123.45, 135.43, 154.63, 121.11, 126.51};
+	double test_tx[5] = { 123.45, 135.43, 154.63, 121.11, 126.51 };
 
 	int test_RSSI[] = { 64, 72, 80 };
 	int num_streams = 7;
@@ -169,18 +173,23 @@ int main() {
 	 * For description: CHR_STRING ap_name, char location[], char mesh[], ENDPOINTS
 	 */
 	  /* Additional function initialization */
-	double average_data(double avg_data_in[5]);
+	//double average_data(double *avg_data_in[]);
+	double average_data(double avg_data_in[], int size);
+	const int test_size = 5;
 	 /* For file creation and access */
-	char *txt_name = malloc(200);
-	char *csv_name = malloc(200);
+	//char *txt_name = malloc(200);
+	//char *csv_name = malloc(200);
 	char test_timestamp[30];
      /* For .csv use */
 	char row_header[30];
 	char *row_buffer = malloc(255);
-	
+	char file_name[CHR_MAX_FILE_PATH];
+	char txt_name[CHR_MAX_FILE_PATH];
+	char csv_name[CHR_MAX_FILE_PATH];
+
 	 /* IMPORTANT FILE POINTERS */
 	FILE *txt_pointer, *csv_pointer;
-
+	void write_to_csv(FILE *file_pointer, int num_col, ...);
 
  /***************************************************************************
   ****************************** FILE CREATION ******************************
@@ -195,8 +204,7 @@ int main() {
 	printf("The current timestamp is: %s\n", test_timestamp);
 	printf("\n");
 
-	get_txt_name( txt_name, data_path, ap_name, test_description, test_timestamp, location, wifi_channel );
-	get_csv_name( csv_name, data_path, ap_name, test_description, test_timestamp, location, wifi_channel );
+	get_file_name( file_name, csv_name, txt_name, data_path, ap_name, test_description, test_timestamp, location, wifi_channel );
 	if ( txt_name == NULL || csv_name == NULL ) {
 		perror("Unable to create filename. Check test variables");
 		exit(EXIT_FAILURE);
@@ -205,7 +213,7 @@ int main() {
 	/* ------------------------ Step 2 ------------------------
 	 * Create the files for the results
 	 */
-	printf("Creating Test Results Files...\n");						// TEST TO MAKE SURE THE FILE NAME IS CORRECT
+	printf("Creating Test Results Files...\n");					// TEST TO MAKE SURE THE FILE NAME IS CORRECT
 	printf("\n");
 	printf("The .txt for this test is: %s\n", txt_name);		// TEST TO MAKE SURE THE FILE NAME IS CORRECT
 	printf("The .csv for this test is: %s\n", csv_name);		// TEST TO MAKE SURE THE FILE NAME IS CORRECT
@@ -269,7 +277,7 @@ int main() {
 	  /* *** DATASET 1 *** */
 	printf("********* DATASET 1 ********\n");
 	set_row_header(row_header, num_streams, client_id[0], location, wifi_channel);		// FOR TEST. ADD TO LOOP IN REAL CODE.
-	double avg1 = average_data(test_tx);	// MOVE LATER
+	double avg1 = average_data(test_tx, test_size);	// MOVE LATER
 
 	csv_pointer = fopen(csv_name, "a+");
 	fprintf(csv_pointer, "Client Endpoint, Run 1, Run 2, Run 3, Run 4, Run 5, Avg Throughput\n");
@@ -277,11 +285,14 @@ int main() {
 	fprintf(csv_pointer, "%s, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n",
 						row_header, test_tx[0], test_tx[1], test_tx[2], test_tx[3], test_tx[4], avg1);
 	printf("The average throughput is %.3f %s\n", avg1, units[1]);
+
+	write_to_csv(csv_pointer, 6, test_tx[0], test_tx[1], test_tx[2], test_tx[3], test_tx[4], avg1); // TEST
+
 	 /* Close file until next write */
 	fclose(csv_pointer);
 	printf("******* END DATASET 1 ******\n");
 	 /* *** END OF DATASET 1 *** */
-
+	
 	 
 	/* ------------------------ Step 4 ------------------------
 	 * Writing the results to the .txt and .csv file
@@ -294,6 +305,37 @@ int main() {
 } /* END OF MAIN */
 
 
+/* ********* WRITE TO CSV ROW RESULTS FUNCTION *********
+ *
+ * Writes a variable number of elements to a row in .csv_name
+ * Adds in commas and a '\n' at the end of the row
+ * Made as a function that can be implemented in other scripts
+ */
+void write_to_csv(FILE *file_pointer, int num_col, ...) {
+
+	double current;
+	va_list valist;
+	va_start(valist, num_col);
+	
+	printf("Writing the following to CSV: ");   // TEST
+	current = va_arg(valist, double);
+
+	fprintf(file_pointer, "%f", current);
+	printf("%f", current);
+
+	for (int n = 1; n < num_col; n++) {
+		current = va_arg(valist, double);
+		printf(", %f", current);   // TEST
+		fprintf(file_pointer, ", %f", current);
+	}
+	va_end(valist);
+
+	printf("\n");
+	fprintf(file_pointer, "\n");
+}   /* ********* End of WRITE TO CSV FUNCTION ********* */
+
+
+
 
 /* ********* CALCULATE THE AVERAGE FUNCTION *********
  *
@@ -302,12 +344,13 @@ int main() {
 
  * Made as a function that can be implemented in other scripts
  */
-double average_data(double avg_data_in[5]) {
+double average_data(double avg_data_in[], int size) {
 
-	int elements = 1;	// At least 1 element
+	int elements = 0;	// At least 1 element
 	double sum = 0, avg = 0;
 
-	for (int n = 0; n < sizeof(avg_data_in); n++) {
+	for (int n = 0; n < size; n++) {
+		
 		sum += avg_data_in[n];
 		elements++;
 	}
